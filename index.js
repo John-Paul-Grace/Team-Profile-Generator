@@ -1,8 +1,8 @@
 // imports for the inquirer package and all necessary classes
 const inquirer = require("inquirer");
-const Engineer = require("Engineer");
-const Manager = require("Manager");
-const Intern = require("Intern");
+const Engineer = require("./lib/Engineer");
+const Manager = require("./lib/Manager");
+const Intern = require("./lib/Intern");
 
 // Main menu array to be passed into inquirer
 const mainMenuChoices = [
@@ -91,22 +91,22 @@ const team = [];
 
 // Function to collect manager information and add it to the team
 function addManager() {
-
+    console.log("MANAGER");
 }
 
 // Function to collect engineer information and add it to the team
 function addEngineer() {
-
+    console.log("ENGINEER");
 }
 
 // Function to collect intern information and add it to the team
 function addIntern() {
-
+    console.log("INTERN");
 }
 
 // Function to dynamically create an html webpage using team array
 function createWebpage() {
-
+    console.log("FINISH");
 }
 
 // Function to create the main menu and initialize the program
@@ -114,7 +114,9 @@ function mainMenu() {
 
     inquirer.prompt(mainMenuChoices).then((res) => {
 
-        switch (res) {
+        const input = res.menuChoice;
+
+        switch (input) {
             case "Add a manager":
                 addManager();
                 break;
