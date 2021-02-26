@@ -1,8 +1,10 @@
 // imports for the inquirer package and all necessary classes
 const inquirer = require("inquirer");
+const fs = require("fs");
 const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
+let htmlSkeleton = require("./lib/htmlSkeleton");
 
 // Main menu array to be passed into inquirer
 const mainMenuChoices = [
@@ -19,22 +21,22 @@ const managerQuestions = [
     {
         type: "input",
         message: "Enter the manager's name:",
-        name: "managerName"
+        name: "name"
     },
     {
         type: "input",
         message: "Enter the manager's ID:",
-        name: "managerId"
+        name: "id"
     },
     {
         type: "input",
         message: "Enter the manager's email:",
-        name: "managerEmail"
+        name: "email"
     },
     {
         type: "input",
         message: "Enter the manager's office number:",
-        name: "managerOfficeNumber"
+        name: "officeNumber"
     }
 ];
 
@@ -43,22 +45,22 @@ const engineerQuestions = [
     {
         type: "input",
         message: "Enter the engineer's name:",
-        name: "engineerName"
+        name: "name"
     },
     {
         type: "input",
         message: "Enter the engineer's ID:",
-        name: "engineerId"
+        name: "id"
     },
     {
         type: "input",
         message: "Enter the engineer's email:",
-        name: "engineerEmail"
+        name: "email"
     },
     {
         type: "input",
-        message: "Enter the engineer's office number:",
-        name: "engineerOfficeNumber"
+        message: "Enter the engineer's github username:",
+        name: "github"
     }
 ];
 
@@ -67,22 +69,22 @@ const internQuestions = [
     {
         type: "input",
         message: "Enter the intern's name:",
-        name: "internName"
+        name: "name"
     },
     {
         type: "input",
         message: "Enter the intern's ID:",
-        name: "internId"
+        name: "id"
     },
     {
         type: "input",
         message: "Enter the intern's email:",
-        name: "internEmail"
+        name: "email"
     },
     {
         type: "input",
-        message: "Enter the intern's office number:",
-        name: "internOfficeNumber"
+        message: "Enter the intern's school:",
+        name: "school"
     }
 ];
 
@@ -91,22 +93,87 @@ const team = [];
 
 // Function to collect manager information and add it to the team
 function addManager() {
-    console.log("MANAGER");
+    
+    inquirer.prompt(managerQuestions).then((res) => {
+
+        const {name, id, email, officeNumber} = res;
+        
+        team.push(new Manager(name, id, email, officeNumber));
+    
+        mainMenu();
+    });
 }
 
 // Function to collect engineer information and add it to the team
 function addEngineer() {
-    console.log("ENGINEER");
+
+    inquirer.prompt(engineerQuestions).then((res) => {
+
+        const {name, id, email, github} = res;
+        
+        team.push(new Engineer(name, id, email, github));
+    
+        mainMenu();
+    });
 }
 
 // Function to collect intern information and add it to the team
 function addIntern() {
-    console.log("INTERN");
+
+    inquirer.prompt(internQuestions).then((res) => {
+        
+        const {name, id, email, school} = res;
+        
+        team.push(new Intern(name, id, email, school));
+    
+        mainMenu();
+    });
 }
 
 // Function to dynamically create an html webpage using team array
 function createWebpage() {
-    console.log("FINISH");
+
+    console.log(team);
+
+    let cardHTML = ``;
+
+    for (let index = 0; index < team.length; index++) {
+
+        cardHTML = 
+`
+                <div class="card" style="width: 18rem; margin-bottom: 10px;">
+                    <h5 class="card-header" style="font-size: 30px; background-color: blue; color: white;">
+                        Grace
+                        <br>
+                        <span style="font-size: 80%;">Engineer</span>
+                    </h5>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">ID: <span>3</span></li>
+                            <li class="list-group-item">Email: <span>grace@fakemail.com</span></li>
+                            <li class="list-group-item">GitHub: <span>gchoi2u</span></li>
+                        </ul>
+                    </div>
+                </div>
+`;
+
+        htmlSkeleton = htmlSkeleton + cardHTML;
+    }
+
+    endHTML = 
+`
+            </div>
+        </div>
+    </main>
+</body>
+</html>`;
+
+    htmlSkeleton = htmlSkeleton + endHTML;
+
+    fs.writeFile("index.html", htmlSkeleton, (err) => {
+        if (err) throw err;
+        console.log("File saved as \"index.html\" in the \"dist\" folder.");
+    });
 }
 
 // Function to create the main menu and initialize the program
