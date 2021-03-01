@@ -130,28 +130,54 @@ function addIntern() {
     });
 }
 
+function thirdData(employee) {
+
+    switch (employee.getRole()) {
+
+        case "Manager":
+            return `Office Number: ${employee.officeNumber}`;
+            break;
+        
+        case "Engineer":
+            return `Github: ${employee.github}`;
+            break;
+
+        case "Intern":
+            return `School: ${employee.school}`;
+            break;
+
+        default:
+            console.log(`ERROR: ${employee} is not a valid object`);
+            mainMenu();
+            break;
+    }
+}
+
 // Function to dynamically create an html webpage using team array
 function createWebpage() {
 
     console.log(team);
 
     let cardHTML = ``;
+    let teamMember = "";
 
     for (let index = 0; index < team.length; index++) {
+
+        teamMember = team[index];
 
         cardHTML = 
 `
                 <div class="card" style="width: 18rem; margin-bottom: 10px;">
                     <h5 class="card-header" style="font-size: 30px; background-color: blue; color: white;">
-                        Grace
+                        ${teamMember.name}
                         <br>
-                        <span style="font-size: 80%;">Engineer</span>
+                        <span style="font-size: 80%;">${teamMember.getRole()}</span>
                     </h5>
                     <div class="card-body">
                         <ul class="list-group">
-                            <li class="list-group-item">ID: <span>3</span></li>
-                            <li class="list-group-item">Email: <span>grace@fakemail.com</span></li>
-                            <li class="list-group-item">GitHub: <span>gchoi2u</span></li>
+                            <li class="list-group-item">ID: ${teamMember.id}</li>
+                            <li class="list-group-item">Email: ${teamMember.email}</li>
+                            <li class="list-group-item">GitHub: ${thirdData(teamMember)}</li>
                         </ul>
                     </div>
                 </div>
@@ -170,7 +196,7 @@ function createWebpage() {
 
     htmlSkeleton = htmlSkeleton + endHTML;
 
-    fs.writeFile("index.html", htmlSkeleton, (err) => {
+    fs.writeFile("./dist/index.html", htmlSkeleton, (err) => {
         if (err) throw err;
         console.log("File saved as \"index.html\" in the \"dist\" folder.");
     });
