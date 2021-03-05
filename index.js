@@ -177,7 +177,7 @@ function createWebpage() {
                         <ul class="list-group">
                             <li class="list-group-item">ID: ${teamMember.id}</li>
                             <li class="list-group-item">Email: ${teamMember.email}</li>
-                            <li class="list-group-item">GitHub: ${thirdData(teamMember)}</li>
+                            <li class="list-group-item">${thirdData(teamMember)}</li>
                         </ul>
                     </div>
                 </div>
